@@ -17,7 +17,7 @@ const Header = () => {
             <a href="/about" className="text-[#2D488F] hover:text-blue-700">About</a>
             <a href="#" className="text-[#2D488F] hover:text-blue-700">Connect</a>
             <a href="#" className="text-[#2D488F] hover:text-blue-700">Resources</a>
-            <a href="#" className="text-[#2D488F] hover:text-blue-700">Circles</a>
+            <a href="/circle" className="text-[#2D488F] hover:text-blue-700">Circles</a>
           </div>
 
           {/* Icons & Profile Section */}
