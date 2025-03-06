@@ -1,6 +1,43 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, X, Plus } from "lucide-react";
 import Calendar from "./Calender";
+// Add this before the FilterSidebar component
+const styles = ` 
+  .range-input::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid #2D488F;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -10px;
+  }
+
+  .range-input::-moz-range-thumb {
+    pointer-events: all;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: trasnparent;
+    border: 2px solid #2D488F;
+    cursor: pointer;
+  }
+
+  .range-input::-webkit-slider-runnable-track {
+    background: transparent;
+    height: 2px;
+  }
+
+  .range-input::-moz-range-track {
+    background: transparent;
+    height: 2px;
+  }
+`;
+
+
+// Add this inside your component's return, before the main JSX
 
 const FilterSidebar = () => {
   const [availableASAP, setAvailableASAP] = useState(false);
@@ -18,6 +55,10 @@ const FilterSidebar = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [hourlyRange, setHourlyRange] = useState({
+    min: 0,
+    max: 2000
+  });
   const [allServiceCategories, setAllServiceCategories] = useState([
     "Web Development",
     "Mobile App Development",
@@ -128,7 +169,8 @@ const handleSkillToggle = (skillName) => {
       : [...prev, skillName]
   );
 };
-  return (
+  return (<>
+    <style>{styles}</style>
     <div className="w-full max-w-[383px] bg-[#050A30] text-white min-h-screen p-6 mt-16 ">
       <div className="mb-8 ml-4">
         <h3 className="text-lg font-semibold mb-2">Availability</h3>
@@ -220,6 +262,75 @@ const handleSkillToggle = (skillName) => {
           </div>
           <div className="border-t border-[#D7DDED] my-2"></div>
           {/* Conditionally render RatingsDropdown for Ratings filter */}
+
+{/* // Add inside the filter mapping where Hourly charges is handled */}
+{filter === "Hourly charges" && openFilters[filter] && (
+  <div className="mt-2 bg-white text-black rounded-lg p-4">
+    <div className="flex flex-col space-y-4">
+      
+      
+      <div className="relative w-full h-2">
+        {/* Background and colored track */}
+        <div className="absolute w-full h-full bg-gray-200 rounded"></div>
+        <div 
+          className="absolute h-full bg-[#2D488F] rounded"
+          style={{ 
+            left: `${(hourlyRange.min / 2000) * 100}%`,
+            width: `${((hourlyRange.max - hourlyRange.min) / 2000) * 100}%`
+          }}
+        />
+        
+        {/* Value tooltips */}
+        <div 
+          className="absolute top-3.5 transform -translate-x-1/2 bg-white text-black shadow-lg px-2 py-1 rounded text-sm"
+          style={{ left: `${(hourlyRange.min / 2000) * 100}%` }}
+        >
+          ${hourlyRange.min}
+        </div>
+        <div 
+          className="absolute top-3.5 transform -translate-x-1/2 bg-white text-black shadow-lg px-2 py-1 rounded text-sm"
+          style={{ left: `${(hourlyRange.max / 2000) * 100}%` }}
+        >
+          ${hourlyRange.max}
+        </div>
+        
+        {/* Min slider */}
+        <input
+          type="range"
+          min="0"
+          max="2000"
+          value={hourlyRange.min}
+          onChange={(e) => {
+            const value = Math.min(Number(e.target.value), hourlyRange.max - 1);
+            setHourlyRange(prev => ({
+              ...prev,
+              min: value
+            }));
+          }}
+          className="range-input absolute w-full h-full appearance-none bg-transparent pointer-events-auto z-20"
+        />
+        
+        {/* Max slider */}
+        <input
+          type="range"
+          min="0"
+          max="2000"
+          value={hourlyRange.max}
+          onChange={(e) => {
+            const value = Math.max(Number(e.target.value), hourlyRange.min + 1);
+            setHourlyRange(prev => ({
+              ...prev,
+              max: value
+            }));
+          }}
+          className="range-input absolute w-full h-full appearance-none bg-transparent pointer-events-auto z-20"
+        />
+      </div>
+      
+     
+    </div>
+  </div>
+)}
           {/* Ratings filter expansion */}
           {filter === "Ratings" && openFilters[filter] && (
             <div className="flex bg-white p-1 rounded-lg justify-between mt-2">
@@ -270,8 +381,6 @@ const handleSkillToggle = (skillName) => {
           {filter === "Service category" && openFilters[filter] && (
             <div className="mt-2 bg-white  text-black rounded-xl p-4">
               <div className="text-base font-semibold  mb-3">All</div>
-
-              {/* Category Checkboxes */}
               {/* Category Checkboxes */}
               <div className="space-y-1 mb-4 h-full overflow-y-auto scrollbar-hide pr-2 ">
               {allServiceCategories.map((category) => (
@@ -484,6 +593,7 @@ const handleSkillToggle = (skillName) => {
         Show results
       </button>
     </div>
+    </>
   );
 };
 

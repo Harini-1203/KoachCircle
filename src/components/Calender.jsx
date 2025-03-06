@@ -126,7 +126,7 @@ const Calendar = () => {
               className={`
                 px-2 py-2 text-center cursor-pointer rounded-lg
                 ${!day.isCurrentMonth ? 'text-gray-300' : 'text-gray-800'}
-                ${isSelected ? 'p-2 border-4 -m-1 rounded-xl  border-[#0047AB] text-white' : ''}
+                ${isSelected ? 'p-2 border-4 -m-1 rounded-xl  border-[#0047AB] text-black' : ''}
                 hover:bg-gray-100
               `}
             >
