@@ -1,11 +1,25 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
-const Calendar = () => {
+const Calendar = ({onDateSelect, selectedDate: propSelectedDate}) => {
   const currentYear = new Date().getFullYear();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(propSelectedDate||null);
 
+  useEffect(() => {
+    if (propSelectedDate) {
+      setSelectedDate(propSelectedDate);
+      setSelectedMonth(propSelectedDate.getMonth());
+      setSelectedYear(propSelectedDate.getFullYear());
+    }
+  }, [propSelectedDate]);
+  const handleDateSelect = (day) => {
+    const newDate = day.date;
+    setSelectedDate(newDate);
+    if (onDateSelect) {
+      onDateSelect(newDate);
+    }
+  };
   // Generate years range (from 10 years ago to 10 years ahead)
   const yearRange = useMemo(() => {
     return Array.from(
@@ -66,10 +80,7 @@ const Calendar = () => {
     return calendarDays;
   }, [selectedYear, selectedMonth]);
 
-  // Handle date selection
-  const handleDateSelect = (day) => {
-    setSelectedDate(day.date);
-  };
+
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-4 w-[400px]">

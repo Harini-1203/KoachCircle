@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronDown, ChevronRight, X, Plus } from "lucide-react";
 import Calendar from "./Calender";
 // Add this before the FilterSidebar component
@@ -40,6 +41,8 @@ const styles = `
 // Add this inside your component's return, before the main JSX
 
 const FilterSidebar = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [availableASAP, setAvailableASAP] = useState(false);
   const [openFilters, setOpenFilters] = useState({});
   const [showFromCalendar, setShowFromCalendar] = useState(false);
@@ -86,7 +89,7 @@ const [countries] = useState([
   { name: 'Japan', code: 'JP', mentors: 28 },
 ]);
 const [languages] = useState([
-  { name: 'English', country: 'United States', code: 'EN' },
+  { name: 'English', country: 'United States', code: 'English' },
   { name: 'Spanish', country: 'Spain', code: 'ES' },
   { name: 'French', country: 'France', code: 'FR' },
   { name: 'German', country: 'Germany', code: 'DE' },
@@ -108,6 +111,66 @@ const [skills] = useState([
   { name: 'Organisational skills',},
   { name: 'Analytical skills',}
 ]);
+
+useEffect(() => {
+  const availableASAP = searchParams.get('availableASAP') === 'true';
+  const fromDate = searchParams.get('fromDate');
+  const toDate = searchParams.get('toDate');
+  const minRate = searchParams.get('minRate');
+  const maxRate = searchParams.get('maxRate');
+  const rating = searchParams.get('rating');
+  const experience = searchParams.get('experience');
+  const services = searchParams.get('services')?.split(',');
+  const industries = searchParams.get('industries')?.split(',');
+  const location = searchParams.get('location');
+  const language = searchParams.get('language');
+  const skills = searchParams.get('skills')?.split(',');
+
+  // Set initial states from URL params
+  setAvailableASAP(availableASAP);
+  setFromDate(fromDate ? new Date(fromDate) : null);
+  setToDate(toDate ? new Date(toDate) : null);
+  setHourlyRange({ min: minRate || 0, max: maxRate || 2000 });
+  setSelectedRating(rating ? Number(rating) : null);
+  setYearsOfExperience(experience || '');
+  setSelectedServiceCategories(services || []);
+  setSelectedIndustryCategories(industries || []);
+  setSelectedCountry(location);
+  setSelectedLanguage(language);
+  setSelectedSkills(skills || []);
+}, [searchParams]);
+
+const formatDate = (date) => {
+  if (!date) return null;
+  const d = new Date(date);
+  return d instanceof Date && !isNaN(d) 
+    ? d.toISOString().split('T')[0]
+    : null;
+};
+const applyFilters = () => {
+  const queryParams = new URLSearchParams();
+
+  // Add filters to query params
+  if (availableASAP) queryParams.set('availableASAP', 'true');
+  const formattedFromDate = formatDate(fromDate);
+  const formattedToDate = formatDate(toDate);
+  if (formattedFromDate) queryParams.set('fromDate', formattedFromDate);
+  if (formattedToDate) queryParams.set('toDate', formattedToDate);
+  if (hourlyRange.min > 0) queryParams.set('minRate', hourlyRange.min);
+  if (hourlyRange.max < 2000) queryParams.set('maxRate', hourlyRange.max);
+  if (selectedRating !== null) queryParams.set('rating', selectedRating);
+  if (yearsOfExperience) queryParams.set('experience', yearsOfExperience);
+  if (selectedServiceCategories.length > 0) queryParams.set('services', selectedServiceCategories.join(','));
+  if (selectedIndustryCategories.length > 0) queryParams.set('industries', selectedIndustryCategories.join(','));
+  if (selectedCountry) queryParams.set('location', selectedCountry);
+  if (selectedLanguage) queryParams.set('language', selectedLanguage);
+  if (selectedSkills.length > 0) queryParams.set('skills', selectedSkills.join(','));
+
+  // Navigate with query params
+  navigate({
+    pathname: '/mentor',
+    search: queryParams.toString()
+  });};
 
 const ratings = [0, 1, 2, 3, 4, 5];
 
@@ -589,7 +652,7 @@ const handleSkillToggle = (skillName) => {
     </div>
     ))}
 
-      <button className=" ml-4 w-[300px] bg-[#F5E649] text-black font-bold py-3 rounded-md mt-4">
+      <button  onClick={applyFilters} className=" ml-4 w-[300px] bg-[#F5E649] text-black font-bold py-3 rounded-md mt-4">
         Show results
       </button>
     </div>
