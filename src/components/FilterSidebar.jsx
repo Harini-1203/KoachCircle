@@ -50,7 +50,7 @@ const FilterSidebar = () => {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [selectedRating, setSelectedRating] = useState(null);
-  const [yearsOfExperience, setYearsOfExperience] = useState(1);
+  const [yearsOfExperience, setYearsOfExperience] = useState(null);
   const [selectedServiceCategories, setSelectedServiceCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [showWarning, setShowWarning] = useState(false);
@@ -119,7 +119,7 @@ useEffect(() => {
   const minRate = searchParams.get('minRate');
   const maxRate = searchParams.get('maxRate');
   const rating = searchParams.get('rating');
-  const experience = searchParams.get('experience');
+  const experience = searchParams.get('yearsOfExperience');
   const services = searchParams.get('services')?.split(',');
   const industries = searchParams.get('industries')?.split(',');
   const location = searchParams.get('location');
@@ -132,7 +132,7 @@ useEffect(() => {
   setToDate(toDate ? new Date(toDate) : null);
   setHourlyRange({ min: minRate || 0, max: maxRate || 2000 });
   setSelectedRating(rating ? Number(rating) : null);
-  setYearsOfExperience(experience || '');
+  setYearsOfExperience(experience ? parseInt(experience, 10) : null);
   setSelectedServiceCategories(services || []);
   setSelectedIndustryCategories(industries || []);
   setSelectedCountry(location);
@@ -159,7 +159,7 @@ const applyFilters = () => {
   if (hourlyRange.min > 0) queryParams.set('minRate', hourlyRange.min);
   if (hourlyRange.max < 2000) queryParams.set('maxRate', hourlyRange.max);
   if (selectedRating !== null) queryParams.set('rating', selectedRating);
-  if (yearsOfExperience) queryParams.set('experience', yearsOfExperience);
+  if (yearsOfExperience!==null) queryParams.set('yearsOfExperience', yearsOfExperience.toString());
   if (selectedServiceCategories.length > 0) queryParams.set('services', selectedServiceCategories.join(','));
   if (selectedIndustryCategories.length > 0) queryParams.set('industries', selectedIndustryCategories.join(','));
   if (selectedCountry) queryParams.set('location', selectedCountry);
@@ -423,17 +423,17 @@ const handleSkillToggle = (skillName) => {
                 <input
                   type="text"
                   pattern="\d*"
-                  value={yearsOfExperience}
+                  value={yearsOfExperience||''}
                   onChange={(e) => {
                     // Only allow numeric input
                     const value = e.target.value.replace(/[^0-9]/g, "");
-                    setYearsOfExperience(value);
+                    setYearsOfExperience(value ? parseInt(value, 10): null);
                   }}
                   className="w-full text-white bg-[#2559BD] focus:outline-none"
                 />
               </div>
               <button
-                onClick={() => setYearsOfExperience("")}
+                onClick={() => setYearsOfExperience(null)}
                 className="text-white mr-2 rounded-full border-2"
               >
                 <X size={24} />

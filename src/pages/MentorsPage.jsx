@@ -15,7 +15,7 @@ const MentorsPage = () => {
       case 'minRate': return `Min Rate: $${value}`;
       case 'maxRate': return `Max Rate: $${value}`;
       case 'rating': return `${value}+ Rating`;
-      case 'experience': return `${value}+ Years`;
+      case 'yearsOfExperience': return `${value}+ Years`;
       case 'services': return `Services: ${value.split(',').join(', ')}`;
       case 'industries': return `Industries: ${value.split(',').join(', ')}`;
       case 'location': return `Location: ${value}`;
@@ -126,16 +126,17 @@ const MentorsPage = () => {
         <div className="flex-1 p-8 mt-20">
           <h1 className="text-6xl font-bold text-[#2D488F] mb-4">Mentors</h1>
           
-          <div className="flex items-center gap-2 mb-4">
+          <div className=" gap-2 mb-4">
+            <span className="text-sm font-bold text-[#2D488E]">
+              {totalResults} results
+            </span>
             <div className="flex items-center">
               <span className="text-2xl font-normal text-[#2D488E]">
                 {typeof averageRating === 'number' ? averageRating.toFixed(1) : '0.0'}
               </span>
               <Star size={24} fill="#ECC026" stroke="none" className="ml-2" />
             </div>
-            <span className="text-sm font-bold text-[#2D488E] ml-4">
-              {totalResults} results
-            </span>          
+                      
             </div>
           
             <div className="flex flex-wrap gap-2 mb-8">
@@ -154,7 +155,7 @@ const MentorsPage = () => {
             ))}
             {getActiveFilters().length === 0 && (
               <div className="text-gray-500 font-medium">
-                No filters applied
+                
               </div>
             )}
           </div>
