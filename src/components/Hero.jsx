@@ -1,27 +1,27 @@
 import React from 'react';
-import {  Search } from 'lucide-react';
-
+import heroBG from "../assets/heroBG.png"
+import HeroSmall from '../assets/HeroSmall';
 const Hero = () => {
   return (
-    <div className="relative w-full bg-[#050A30] text-white py-16 mt-14">
-      <div className="container mx-auto px-6 text-center">
-        <h1 className="text-5xl font-bold mb-2">Join the conversation.</h1>
-        <h1 className="text-5xl font-bold mb-6">Stay in the know.</h1>
-        
-        <p className="text-2xl text-[#F5E649] mb-8 flex items-center justify-center">
-          <span className="mr-2">Where proven expertise and potential intersect to unlock peak performance.</span>
+    <div className='w-5/6 mb-10 mx-auto' >
+    <h1 className='font-bold text-3xl lg:mt-20 my-5 text-[#001F54]' >Circles</h1>
+    <div className="w-full mx-auto h-[130px] md:h-[220px] flex bg-cover bg-center flex justify-between lg:px-20 md:px-10 px-3 items-center " 
+         style={{ backgroundImage: `url(${heroBG})` }}>
+      <div className="">
+        <h1 className="text-xs md:text-3xl font-bold text-[#2D488F] mb-2">
+          Explore and Connect: Discover Your Circles
+        </h1>
+        <p className="text-[0.6rem] md:text-lg font-bold text-[#001F54]">
+          Engage with like-minded people!
         </p>
-        
-        <div className="relative max-w-lg mx-auto">
-          <input 
-            type="text" 
-            placeholder="Search mentors" 
-            className="w-full py-2 px-4 rounded-md border border-[#49515B] text-[#B8BCC2] pl-10"
-          />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#B8BCC2]" size={18} />
-        </div>
       </div>
+      <div className="relative top-5 ">
+        <HeroSmall />
+      </div> 
+
     </div>
+    </div>
+
   );
 };
 

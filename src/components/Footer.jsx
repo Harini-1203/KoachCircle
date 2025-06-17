@@ -1,5 +1,6 @@
 import React from 'react'
-import Logo from '../assets/logoWhite.png'
+import logoWhite from "../assets/logoWhite.png"
+
 import { FaFacebookF,FaLinkedinIn,FaInstagram,FaXTwitter, FaTiktok, FaSpotify, FaYoutube} from "react-icons/fa6";
 export default function Footer() {
     const socialLinks = [
@@ -36,11 +37,11 @@ export default function Footer() {
         
       ];
   return (
-    <div className='w-full bg-[#050A30] py-14 mt-20 '>
-      <div className='max-w-[1200px] mx-auto mb-20'>
-        <img src={Logo}/>
-        <div className='flex justify-between'>
-            <div className='text-[#F5E649] text-left mt-2 text-[26px] font-bold'>Where <span className='text-white'>Clarity</span> Meets <span className='text-white'>Action</span></div>
+    <div className='w-full bg-[#001F54] py-14 mt-20 '>
+      <div className='max-w-[1200px] mx-auto px-10 lg:px-0 mb-20'>
+        <img src={logoWhite} className='mb-5' />
+        <div className='flex md:flex-row flex-col  justify-between items-center'>
+            <div className='text-[#F5E649] text-left mt-2 md:text-[26px] text-xl mb-2 font-bold'>Where <span className='text-white'>Clarity</span> Meets <span className='text-white'>Action</span></div>
             <div className='flex gap-5'>
                 {socialLinks.map((link) => (
                     <a
@@ -55,35 +56,35 @@ export default function Footer() {
             </div>
         </div>
         <hr className='border-[#F5E649] mt-6 border '></hr>
-        <div className='flex text-white text-left gap-x-40 mt-14 '>
+        <div className='flex text-white text-left lg:gap-x-40 lg:justify-start justify-evenly mt-14 '>
             <div>
-                <span className='text-[20px] font-bold'>PLATFORM</span>
+                <span className='md:text-[20px] text-sm font-bold'>PLATFORM</span>
                 <ul>
-                    <li className= "hover:underline cursor-pointer">Browse mentors</li>
-                    <li className= "hover:underline cursor-pointer">Book a Session</li>
-                    <li className= "hover:underline cursor-pointer">Become a Mentor</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Browse mentors</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Book a Session</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Become a Mentor</li>
                 </ul>
             </div>
             <div>
-                <span className='text-[20px] font-bold'>RESOURCES</span>
+                <span className='md:text-[20px] text-sm font-bold'>RESOURCES</span>
                 <ul>
-                    <li className= "hover:underline cursor-pointer">Newsletter</li>
-                    <li className= "hover:underline cursor-pointer">Blogs</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Newsletter</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Blogs</li>
                 </ul>
             </div>
             <div>
-                <span className='text-[20px] font-bold'> COMPANY</span>
+                <span className='md:text-[20px] text-sm font-bold'> COMPANY</span>
                 <ul>
-                    <li className= "hover:underline cursor-pointer">About</li>
-                    <li className= "hover:underline cursor-pointer">Partner Program</li>
-                    <li className= "hover:underline cursor-pointer">Privacy Policy</li>
+                    <li className= "my-3 hover:underline cursor-pointer">About</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Partner Program</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Privacy Policy</li>
                 </ul>
             </div>
             <div>
-                <span className='text-[20px] font-bold'>SUPPORT</span>
+                <span className='md:text-[20px] text-sm font-bold'>SUPPORT</span>
                 <ul>
-                    <li className= "hover:underline cursor-pointer">FAQ</li>
-                    <li className= "hover:underline cursor-pointer">Contact</li>
+                    <li className= "my-3 hover:underline cursor-pointer">FAQ</li>
+                    <li className= "my-3 hover:underline cursor-pointer">Contact</li>
                 </ul>
             </div>
         </div>
